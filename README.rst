@@ -68,7 +68,7 @@ locate`` (typically ``~/.ipython/profile_default/``).
 
 If you don't have such a file at all, you can use ``ipython profile create``.
 
-Run tests with ``pytest``.
+Run tests with ``unittest`` (or ``pytest``).
 
 Limitations
 -----------
