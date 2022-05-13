@@ -165,15 +165,18 @@ class _AutoImporterMap(dict):
                 pass
             # Find single matching import, if any.
             imports = self._import_cache.get(name, {"import {}".format(name)})
-            if len(imports) != 1:
-                if len(imports) > 1:
-                    _report(self._ipython,
-                            "multiple imports available for {!r}:\n"
-                            "{}\n"
-                            "'%autoimport --clear {}' "
-                            "can be used to clear the cache for this symbol."
-                            .format(name, "\n".join(imports), name))
+            if len(imports) < 1:
                 raise key_error
+            elif len(imports) > 1:
+                imports = sorted(imports)
+                _report(self._ipython,
+                        "multiple imports available for {!r}:\n"
+                        "{}\n"
+                        "'%autoimport --clear {}' "
+                        "can be used to clear the cache for this symbol."
+                        "(Importing the first one above)"
+                        .format(name, "\n".join(imports), name))
+                imports = imports[:1]
             import_source, = imports
             try:
                 exec(import_source, self)  # exec recasts self as a dict.
